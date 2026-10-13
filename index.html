@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Already Helped</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:opsz,wght@8..32,500;8..32,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow reading column; a quiet top bar; each "page" is a section shown by its #anchor.
+   Subject cues: case-report language, evidence labels set like lab tags. */
+:root{
+  --paper:#f5f8f7; --surface:#ffffff; --ink:#15302f; --muted:#4d6665;
+  --line:#d3dfdd; --accent:#1f6f62; --accent-soft:#e1efeb; --flag:#8a5a00; --flag-soft:#fbf1dc;
+  --display:"Petrona", Georgia, "Times New Roman", serif;
+  --body:"Public Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0f1a1a; --surface:#152323; --ink:#e3eeec; --muted:#9db3b0;
+  --line:#2a3d3c; --accent:#6cc4b2; --accent-soft:#1b3431; --flag:#e9bf6a; --flag-soft:#2e2615; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f1a1a; --surface:#152323; --ink:#e3eeec; --muted:#9db3b0;
+  --line:#2a3d3c; --accent:#6cc4b2; --accent-soft:#1b3431; --flag:#e9bf6a; --flag-soft:#2e2615; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 1rem/1.6 var(--body)}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:3px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);border-bottom:1px solid var(--line);z-index:5}
+.bar-in{max-width:46rem;margin:0 auto;padding:.7rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:baseline}
+.brand{font:700 1.25rem/1 var(--display);color:var(--ink);text-decoration:none;margin-right:auto}
+.nav{display:flex;flex-wrap:wrap;gap:.2rem 1rem;font-size:.92rem}
+.nav a{color:var(--muted);text-decoration:none;padding:.15rem 0;border-bottom:2px solid transparent}
+.nav a[aria-current="page"]{color:var(--ink);border-color:var(--accent)}
+main{max-width:46rem;margin:0 auto;padding-inline:1rem;padding-block:2rem 4rem}
+section.page{display:flex;flex-direction:column;gap:1.6rem}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:700}
+h2{font-size:1.45rem;font-weight:700}
+h3{font-size:1.1rem;font-weight:700;font-family:var(--body)}
+p{margin:0;max-width:65ch}
+.lede{font-size:1.12rem;color:var(--muted)}
+.tag{font:500 .72rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:.3rem .45rem;border-radius:3px;display:inline-block;white-space:nowrap}
+.tag.live{background:var(--accent-soft);color:var(--accent)}
+.tag.soon{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.tag.flag{background:var(--flag-soft);color:var(--flag)}
+.block{display:flex;flex-direction:column;gap:.9rem}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.list li{padding:1rem 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.list .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .8rem}
+.list .where{font-size:.85rem;color:var(--muted)}
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1rem}
+.path{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1.1rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.path.on{border-color:var(--accent)}
+.note{background:var(--flag-soft);border-left:3px solid var(--flag);padding:.9rem 1rem;border-radius:0 4px 4px 0;display:flex;flex-direction:column;gap:.4rem}
+.note strong{color:var(--flag)}
+.checks{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.45rem;max-width:65ch}
+.btn{display:inline-block;background:var(--accent);color:var(--paper);text-decoration:none;font-weight:600;padding:.6rem 1rem;border-radius:4px}
+.fine{font-size:.85rem;color:var(--muted)}
+footer{max-width:46rem;margin:0 auto;padding-inline:1rem;padding-block:1.5rem 2rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.5rem 1rem;justify-content:space-between;align-items:flex-end}
+.stamp{font:500 .72rem/1 var(--mono);color:var(--muted);margin-left:auto}
+@media (prefers-reduced-motion:no-preference){.nav a{transition:border-color .15s}}
+</style>
+</head>
+<body>
+
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="#home">Already Helped</a>
+  <nav class="nav" aria-label="Main">
+    <a href="#home">Home</a>
+    <a href="#find-a-doctor">Find a doctor</a>
+    <a href="#search">Search</a>
+    <a href="#play">Play</a>
+    <a href="#history">My health history</a>
+  </nav>
+</div></header>
+
+<main>
+
+<section class="page" id="home">
+  <span class="tag live">Rare diseases · conventional and natural treatments</span>
+  <h1>Someone with your condition may have already found something that helped.</h1>
+  <p class="lede">We use AI to find published cases where a drug, herb, therapy or lifestyle change helped a person with a rare disease. Players check the evidence. You get leads you can act on, and a summary your doctor can't ignore.</p>
+  <div class="paths">
+    <div class="path on">
+      <div class="row"><span class="tag live">Open now</span></div>
+      <h3>Find a doctor</h3>
+      <p>Rare-disease experts, genetic counselors, and licensed integrative practitioners, plus questions that tell you whether a doctor will really help.</p>
+      <a class="btn" href="#find-a-doctor">Find a doctor</a>
+    </div>
+    <div class="path">
+      <span class="tag soon">Coming</span>
+      <h3>Search treatment leads</h3>
+      <p>Every lead shows how strong its evidence is, from a single case report to a clinical trial.</p>
+    </div>
+    <div class="path">
+      <span class="tag soon">Coming</span>
+      <h3>Play</h3>
+      <p>Check the cases our AI finds. Each judgment you make helps someone get a better answer.</p>
+    </div>
+  </div>
+  <div class="block">
+    <h2>What we stand for</h2>
+    <p>Many treatments that could help people with rare diseases are already known, scattered across case reports and journals no single doctor has time to read. We believe AI can find them faster and more cheaply than the old way, without animal testing. We do not fund or promote animal testing.</p>
+    <p class="fine">This site shares published evidence. It does not diagnose, prescribe, or replace a qualified practitioner.</p>
+  </div>
+</section>
+
+<section class="page" id="find-a-doctor" hidden>
+  <span class="tag live">Find a doctor</span>
+  <h1>Find someone who knows your condition and will listen.</h1>
+  <p class="lede">With a rare disease, the right practitioner matters more than the nearest one. Below are trusted places to start, for conventional and holistic care. We don't run these services or get paid by them.</p>
+
+  <div class="block">
+    <h2>Rare-disease experts</h2>
+    <ul class="list">
+      <li>
+        <div class="row"><h3><a href="https://rarediseases.org/rare-disease-centers-of-excellence/" target="_blank" rel="noopener">NORD Rare Disease Centers of Excellence</a></h3><span class="where">United States</span></div>
+        <p>A network of academic medical centers that care for people with any rare disease, including complex and unusual cases.</p>
+      </li>
+      <li>
+        <div class="row"><h3><a href="https://rarediseases.info.nih.gov/" target="_blank" rel="noopener">GARD: Genetic and Rare Diseases Information Center</a></h3><span class="where">United States · NIH · free</span></div>
+        <p>Free information specialists who can help you find specialists for your disease, in English or Spanish. They don't give medical advice.</p>
+      </li>
+      <li>
+        <div class="row"><h3><a href="https://www.nsgc.org/findageneticcounselor" target="_blank" rel="noopener">Find a Genetic Counselor (NSGC)</a></h3><span class="where">United States and Canada · in person or telehealth</span></div>
+        <p>Genetic counselors explain test results and inheritance, and often know which specialists see your condition.</p>
+      </li>
+      <li>
+        <div class="row"><h3><a href="https://undiagnosed.hms.harvard.edu/" target="_blank" rel="noopener">Undiagnosed Diseases Network</a></h3><span class="where">United States · research study</span></div>
+        <p>For people still without a diagnosis after a thorough workup. You apply online, and you'll need a signed letter from a healthcare provider.</p>
+      </li>
+      <li>
+        <div class="row"><h3><a href="https://health.ec.europa.eu/european-reference-networks/overview_en" target="_blank" rel="noopener">European Reference Networks</a></h3><span class="where">EU, Norway, Ukraine · through your doctor</span></div>
+        <p>Networks of specialist hospitals whose expert panels review difficult cases. Your treating doctor makes the referral, so bring them a clear summary.</p>
+      </li>
+      <li>
+        <div class="row"><h3><a href="https://www.orpha.net/" target="_blank" rel="noopener">Orphanet expert centres</a></h3><span class="where">Europe and beyond</span></div>
+        <p>Search your disease, then look for its expert centres. You can filter by country and by adult or children's care.</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h2>Holistic and integrative practitioners</h2>
+    <p>Some people find relief from approaches their conventional doctors never mention. These directories list practitioners who hold a recognized certification.</p>
+    <ul class="list">
+      <li>
+        <div class="row"><h3><a href="https://www.ifm.org/find-a-practitioner/" target="_blank" rel="noopener">Institute for Functional Medicine: Find a Practitioner</a></h3><span class="where">Worldwide</span></div>
+        <p>Medical doctors, osteopaths, chiropractors, nutritionists and others trained in functional medicine, which looks for root causes across body systems.</p>
+      </li>
+      <li>
+        <div class="row"><h3><a href="https://directory.ncbahm.org/" target="_blank" rel="noopener">Board-certified acupuncture and herbal medicine (NCBAHM)</a></h3><span class="where">United States</span></div>
+        <p>Nationally board-certified acupuncturists and Chinese herbalists. Listing is voluntary, so also check your state's licensing board.</p>
+      </li>
+      <li>
+        <div class="row"><h3>Chiropractors and other licensed practitioners</h3><span class="where">Your state or country</span></div>
+        <p>Search "[your state] board of chiropractic" (or acupuncture, naturopathy, massage) to confirm a license and see any complaints.</p>
+      </li>
+    </ul>
+    <div class="note">
+      <strong>Tell every practitioner your diagnosis.</strong>
+      <p>Some rare diseases change what's safe. For example, neck manipulation carries extra risk for people with connective-tissue disorders, and some herbs interact with prescription drugs. A good practitioner will want to know.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>Questions that show whether a practitioner will help</h2>
+    <ol class="checks">
+      <li>Have you cared for anyone with my condition, or one like it?</li>
+      <li>If I bring published case reports, will you read them and tell me what you think?</li>
+      <li>Will you work with my other doctors and practitioners, conventional and holistic?</li>
+      <li>If you can't help, can you refer me to someone who can?</li>
+      <li>Do you offer telehealth, so distance isn't a barrier?</li>
+    </ol>
+  </div>
+
+  <div class="block">
+    <h2>What to bring</h2>
+    <ul class="checks">
+      <li>Your diagnosis and any genetic test results.</li>
+      <li>A list of everything you take: prescriptions, supplements, herbs.</li>
+      <li>What you've tried, and what helped or didn't.</li>
+      <li>Your one-page evidence summary <span class="tag soon">Coming</span></li>
+    </ul>
+  </div>
+  <p class="fine">Links checked October 2026. Organizations change their sites; if a link breaks, search the organization's name.</p>
+</section>
+
+<section class="page" id="search" hidden>
+  <span class="tag soon">Coming</span>
+  <h1>Search treatment leads</h1>
+  <p class="lede">Search published cases where a treatment helped someone with a rare disease. Every lead will show how strong its evidence is and offer a summary to take to your practitioner.</p>
+  <p><a href="#find-a-doctor">Find a doctor while you wait</a></p>
+</section>
+
+<section class="page" id="play" hidden>
+  <span class="tag soon">Coming</span>
+  <h1>Play</h1>
+  <p class="lede">Our AI finds cases where a treatment may have helped. You check them against the source. Each answer makes the search results more trustworthy.</p>
+</section>
+
+<section class="page" id="history" hidden>
+  <span class="tag soon">Coming</span>
+  <h1>My health history</h1>
+  <p class="lede">Build an accurate health history that stays on your own device. You decide whether to share it, and anything shared is anonymous.</p>
+</section>
+
+</main>
+
+<footer>
+  <p class="fine">Already Helped (working name). Information only, not medical advice.</p>
+  <span class="stamp">Updated 2026-10-13</span>
+</footer>
+
+<script>
+(function(){
+  var pages=["home","find-a-doctor","search","play","history"];
+  function show(){
+    var id=(location.hash||"#home").slice(1);
+    if(pages.indexOf(id)<0) id="home";
+    pages.forEach(function(p){var el=document.getElementById(p); if(el) el.hidden=(p!==id);});
+    document.querySelectorAll(".nav a").forEach(function(a){
+      if(a.getAttribute("href")==="#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+    });
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange",show);
+  show();
+})();
+</script>
+</body>
+</html>
